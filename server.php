@@ -37,19 +37,7 @@ while (true) {
     }
 
     // ---- Definir conteúdo HTML ----
-    $txt = '
-    <!DOCTYPE html>
-    <html>
-    <body>
-
-    <h2>The alt Attribute</h2>
-    <p>The alt attribute should reflect the image content, so users who cannot see the image get an understanding of what the image contains:</p>
-
-    <img src="https://i.imgur.com/NGncv.jpeg" width="500" height="600">
-
-    </body>
-    </html>
-    ';
+    $txt = file_get_contents('index.html');
 
     // ---- Cabeçalho HTTP (Content-Type) ----
     $http = "HTTP/1.1 200 OK\r\n";
