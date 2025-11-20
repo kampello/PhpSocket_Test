@@ -2,9 +2,10 @@
 echo"Server Inicializando...";
 
 // ---- Constantes ----
-$PORTO = 55100;  // 
+$PORTO = 55100;  
 $BUFFSIZE = 1024;
-
+//onde vai ser incializado
+echo "http://localhost:".$PORTO."/";
 // ---- Criar socket ----
 $s = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
 if ($s === false) {
@@ -34,32 +35,28 @@ while (true) {
     } else {
         $clientes++;  // Incrementa contador de clientes
         echo "\n" . $clientes . " - Cliente entrou!\n";
+       
     }
-
-    // ---- Definir conteúdo HTML ----
+    
     $txt = file_get_contents('index.html');
 
-    // ---- Cabeçalho HTTP (Content-Type) ----
+
     $http = "HTTP/1.1 200 OK\r\n";
     $http .= "Content-Type: text/html; charset=UTF-8\r\n";
     $http .= "Connection: close\r\n\r\n";  // Fecha a conexão após enviar a resposta
 
-    // ---- Obter hora atual ----
-    $t = date("r") . "\n";  // Formato "Mon, 14 Nov 2025 17:23:20 +0000"
+    $t = date("r") . "\n";
 
-    // ---- Criar a resposta completa ----
-    $buf = $http . $txt . $t;
+    // Oque deve ser mostrado ao cliente
+    $buf = $t.$http . $txt;
 
-    // ---- Enviar resposta para o cliente ----
     socket_write($c, $buf, strlen($buf));
 
-    // ---- Ler a resposta do cliente ---- (opcional)
+    
     $msg = socket_read($c, 1024);
-    echo "Mensagem do cliente: $msg\n";
-
-    // ---- Fechar a conexão com o cliente ----
+    /*echo "Mensagem do cliente: $msg\n";*/
     socket_close($c);
 }
 
-socket_close($s); // Fechar o socket principal quando sair do loop (o que no seu caso nunca ocorrerá)
+socket_close($s); 
 ?>
